@@ -1,13 +1,12 @@
-package com.stockian.stockian.conroller;
+package com.stockian.stockian.controller;
 
-import com.stockian.stockian.entity.User;
+import com.stockian.stockian.entity.StockianUser;
 import com.stockian.stockian.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.util.List;
 
 @RestController
@@ -18,12 +17,12 @@ public class UserController {
     UserRepository userRepository;
 
     @GetMapping("/users")
-    public List<User> getAllUsers() {
+    public List<StockianUser> getAllUsers() {
         return userRepository.findAll();
     }
 
     @PostMapping(value = "/user", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public User createUser (@Validated @RequestBody User user) {
+    public StockianUser createUser (@Validated @RequestBody StockianUser user) {
         return userRepository.save(user);
     }
 }
