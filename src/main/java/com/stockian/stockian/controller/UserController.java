@@ -4,7 +4,7 @@ import com.stockian.stockian.entity.StockianUser;
 import com.stockian.stockian.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +19,16 @@ public class UserController {
     @GetMapping("/users")
     public List<StockianUser> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @GetMapping("/user/{userName}")
+    public ResponseEntity<StockianUser> getUserByName(@PathVariable("userName") String userName)
+        throws Exception {
+        StockianUser stockianUser = userRepository.findStockianUserByUserName(userName);
+        if (stockianUser == null) {
+            throw new Exception("User " + userName + " not found");
+        }
+        return ResponseEntity.ok().body(stockianUser);
     }
 
     @PostMapping(value = "/user", consumes = MediaType.APPLICATION_JSON_VALUE)
