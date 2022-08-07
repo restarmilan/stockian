@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/user", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public StockianUser createUser (@Validated @RequestBody StockianUser user) {
+    public StockianUser createUser (@RequestBody StockianUser user) {
         return userRepository.save(user);
     }
 }
