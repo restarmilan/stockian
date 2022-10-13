@@ -27,4 +27,7 @@ public class StockianUser {
   private String userName;
 
   private UserStatus status;
+
+  @Column(nullable = false)
+  private String password;
 }

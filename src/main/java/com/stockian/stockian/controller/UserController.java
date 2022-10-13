@@ -71,4 +71,15 @@ public class UserController {
     userRepository.save(stockianUser);
     return ResponseEntity.ok().body("Success");
   }
+
+  @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<LoginForm> login(@RequestBody LoginForm loginForm) {
+    System.out.println(loginForm.getUserName());
+    StockianUser stockianUserByUserName = userRepository.findStockianUserByUserName(
+        loginForm.getUserName());
+    if (stockianUserByUserName.getPassword().equals(loginForm.getPassword())) {
+      loginForm.setSuccessful(true);
+    }
+    return ResponseEntity.ok().body(loginForm);
+  }
 }
