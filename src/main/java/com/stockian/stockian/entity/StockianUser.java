@@ -1,5 +1,6 @@
 package com.stockian.stockian.entity;
 
+import com.stockian.stockian.constants.enums.UserRole;
 import com.stockian.stockian.constants.enums.UserStatus;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,4 +32,9 @@ public class StockianUser {
 
   @Column(nullable = false)
   private String password;
+
+  @Column(nullable = false)
+  private String email;
+
+  private UserRole role;
 }

@@ -1,9 +1,11 @@
 package com.stockian.stockian.controller;
 
 
+import com.stockian.stockian.constants.enums.UserRole;
 import com.stockian.stockian.constants.enums.UserStatus;
 import com.stockian.stockian.entity.StockianUser;
 import com.stockian.stockian.repository.UserRepository;
+import com.stockian.stockian.service.EmailService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,6 +23,8 @@ public class UserController {
 
   @Autowired
   UserRepository userRepository;
+  @Autowired
+  EmailService emailService;
 /*  @Autowired
   StockianUserDetailsService stockianUserDetailsService;*/
 
@@ -64,7 +68,10 @@ public class UserController {
   @PostMapping(value = "/user", consumes = MediaType.APPLICATION_JSON_VALUE)
   public StockianUser createUser(@RequestBody StockianUser user) {
     user.setStatus(UserStatus.PENDING);
-    return userRepository.save(user);
+    user.setRole(UserRole.USER);
+    userRepository.save(user);
+    emailService.sendConfirmationEmail(user.getEmail());
+    return user;
   }
 
   @PostMapping(value = "/setStatus", consumes = MediaType.APPLICATION_JSON_VALUE)
