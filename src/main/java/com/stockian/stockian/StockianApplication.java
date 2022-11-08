@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class StockianApplication {
 
   public static void main(String[] args) {
+
     SpringApplication.run(StockianApplication.class, args);
   }
 

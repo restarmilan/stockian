@@ -28,8 +28,12 @@ public class UserController {
 /*  @Autowired
   StockianUserDetailsService stockianUserDetailsService;*/
 
+  @Autowired
+  EmailService eeemailservice;
+
   @GetMapping("/users")
   public List<StockianUser> getAllUsers() {
+    eeemailservice.sendTextMail("roznernek@gmail.com", "Nagytest", "Nesze", null, null);
     return userRepository.findAll();
   }
 
