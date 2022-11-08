@@ -1,6 +1,6 @@
 package com.stockian.stockian.controller;
 
-import com.stockian.stockian.StockianUserDetailsService;
+
 import com.stockian.stockian.constants.enums.UserStatus;
 import com.stockian.stockian.entity.StockianUser;
 import com.stockian.stockian.repository.UserRepository;
@@ -8,7 +8,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +21,8 @@ public class UserController {
 
   @Autowired
   UserRepository userRepository;
-  @Autowired
-  StockianUserDetailsService stockianUserDetailsService;
+/*  @Autowired
+  StockianUserDetailsService stockianUserDetailsService;*/
 
   @GetMapping("/users")
   public List<StockianUser> getAllUsers() {
@@ -83,7 +82,6 @@ public class UserController {
         loginForm.getUserName());
     if (stockianUserByUserName.getPassword().equals(loginForm.getPassword())) {
       loginForm.setSuccessful(true);
-      stockianUserDetailsService.loadUserByUsername(loginForm.getUserName());
     }
     return ResponseEntity.ok().body(loginForm);
   }
