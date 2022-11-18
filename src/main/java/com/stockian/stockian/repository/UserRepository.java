@@ -11,5 +11,6 @@ public interface UserRepository extends JpaRepository<StockianUser, Long> {
 
   StockianUser findStockianUserByUserName(String userName);
 
+
   List<StockianUser> findStockianUsersByStatus(UserStatus status);
 }

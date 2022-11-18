@@ -7,6 +7,8 @@ import com.stockian.stockian.entity.StockianUser;
 import com.stockian.stockian.repository.UserRepository;
 import com.stockian.stockian.service.EmailService;
 import java.util.List;
+
+import com.stockian.stockian.service.PropertyLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +30,14 @@ public class UserController {
 /*  @Autowired
   StockianUserDetailsService stockianUserDetailsService;*/
 
+
   @Autowired
-  EmailService eeemailservice;
+  PropertyLoader loader;
 
   @GetMapping("/users")
   public List<StockianUser> getAllUsers() {
-    eeemailservice.sendTextMail("roznernek@gmail.com", "Nagytest", "Nesze", null, null);
+    //emailService.sendTextMail("roznernek@gmail.com", "Nagytest", "Nesze", null, null);
+    System.out.print(loader.getDNS());
     return userRepository.findAll();
   }
 
