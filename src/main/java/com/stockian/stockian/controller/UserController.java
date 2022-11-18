@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.thymeleaf.context.Context;
+
+import javax.mail.MessagingException;
 
 @RestController
 @RequestMapping("/api")
@@ -31,13 +34,11 @@ public class UserController {
   StockianUserDetailsService stockianUserDetailsService;*/
 
 
-  @Autowired
-  PropertyLoader loader;
+
 
   @GetMapping("/users")
-  public List<StockianUser> getAllUsers() {
+  public List<StockianUser> getAllUsers() throws MessagingException {
     //emailService.sendTextMail("roznernek@gmail.com", "Nagytest", "Nesze", null, null);
-    System.out.print(loader.getDNS());
     return userRepository.findAll();
   }
 
@@ -78,7 +79,11 @@ public class UserController {
     user.setStatus(UserStatus.PENDING);
     user.setRole(UserRole.USER);
     userRepository.save(user);
-    emailService.sendConfirmationEmail(user.getEmail());
+    try {
+      emailService.sendConfirmationEmail(user.getEmail(), user.getUserName());
+    } catch (MessagingException e) {
+      throw new RuntimeException(e);
+    }
     return user;
   }
 

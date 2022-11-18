@@ -26,9 +26,16 @@ public class EmailService{
   private TemplateEngine templateEngine;
   @Autowired
   MailProperties mailProperties;
+
+  @Autowired
+  PropertyLoader loader;
   @Async
-  public void sendConfirmationEmail(String emailAddress){
-    //TODO: do sth very nice;
+  public void sendConfirmationEmail(String emailAddress, String userName) throws javax.mail.MessagingException {
+    Context cont = new Context();
+    cont.setVariable("userName", userName);
+    cont.setVariable("activationUrl", "http://" + loader.getDNS() + "/api/" + userName + "/activation");
+    System.out.println(cont.getVariable("activationUrl"));
+    sendHtmlMail(emailAddress,"Activation", "ActivationEmailTemplate.html", cont);
   }
 
   @Async
@@ -48,8 +55,10 @@ public class EmailService{
     String body = templateEngine.process(templateName, context);
     MimeMessageHelper helper = new MimeMessageHelper(mail, true);
     try {
-      helper.setFrom(mailProperties.getProperties().get("from"),mailProperties.getProperties().get("personal"));
-    } catch (UnsupportedEncodingException e) {
+      //helper.setFrom(mailProperties.getProperties().get("from"),mailProperties.getProperties().get("personal"));
+      helper.setFrom("huha.inc","huha.personal");
+
+    } catch (Exception e) {
       System.out.println("error in mail service sendHtmlMail method"+e);
     }
     helper.setTo(to);
